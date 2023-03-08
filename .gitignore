@@ -56,3 +56,9 @@ magpie_delete_users*.txt
 requirements-all.txt
 gunicorn.app.wsgiapp
 error_log.txt
+
+# OS Specific
+.DS_Store
+magpie/.DS_Store
+magpie/api/.DS_Store
+magpie/management/register/.DS_Store
