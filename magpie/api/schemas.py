@@ -213,6 +213,24 @@ RegisterUsersAPI = Service(
 RegisterUserAPI = Service(
     path="/register/users/{user_name}",
     name="RegisterUser")
+
+# Add schema for registering a node
+RegisterNodeAPI = Service(
+    path="/register/node",
+    name="RegisterNode")
+
+# Add schema for registering a node through a URL
+RegisterNodeURLAPI = Service(
+    path="/register/nodeurl",
+    name="RegisterNodeURL"
+)
+
+# Add schema for registering a node from a file such as JSON
+RegisterNodeJSONAPI = Service(
+    path="/register/nodeJSON",
+    name="RegisterNodeJSON"
+)
+
 ResourcesAPI = Service(
     path="/resources",
     name="Resources")
