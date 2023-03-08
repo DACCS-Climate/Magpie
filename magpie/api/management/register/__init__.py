@@ -15,6 +15,15 @@ def includeme(config):
     config.add_route(**s.service_api_route_info(s.RegisterGroupAPI))
     config.add_route(**s.service_api_route_info(s.TemporaryUrlAPI))
 
+    # Add route for receiving info about a node
+    config.add_route(**s.service_api_route_info(s.RegisterNodeAPI))
+
+    # Add route for receiving info about a node through a URL
+    config.add_route(**s.service_api_route_info(s.RegisterNodeURLAPI))
+
+    # Add route for receiving info about a node through a file such as JSON
+    config.add_route(**s.service_api_route_info(s.RegisterNodeJSONAPI))
+
     register_user_enabled = asbool(get_constant("MAGPIE_USER_REGISTRATION_ENABLED", settings_container=config,
                                                 default_value=False, print_missing=True,
                                                 raise_missing=False, raise_not_set=False))
