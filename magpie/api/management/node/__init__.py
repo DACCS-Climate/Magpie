@@ -7,4 +7,3 @@ def includeme(config):
     LOGGER.info("Adding API node...")
     config.add_route(**s.service_api_route_info(s.NodeAdminAPI))
 
-    
