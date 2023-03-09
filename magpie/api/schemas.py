@@ -214,6 +214,11 @@ RegisterUserAPI = Service(
     path="/register/users/{user_name}",
     name="RegisterUser")
 
+
+NodeAdminAPI = Service(
+    path="/Admin/node",
+    name="NodeAdmin")
+
 # Add schema for registering a node
 RegisterNodeAPI = Service(
     path="/register/node",
@@ -305,6 +310,12 @@ UserNameParameter = colander.SchemaNode(
     colander.String(),
     description="Registered local user.",
     example="toto",)
+
+NodeNameParameter = colander.SchemaNode(
+    colander.String(),
+    description="Registered node",
+    example="Node1 or Usernamenode",)
+
 ProviderNameParameter = colander.SchemaNode(
     colander.String(),
     description="External identity provider.",
@@ -3195,12 +3206,56 @@ RegisterGroup_DELETE_ForbiddenResponseSchema = UserGroup_DELETE_ForbiddenRespons
 RegisterGroup_DELETE_NotFoundResponseSchema = UserGroup_DELETE_NotFoundResponseSchema
 
 
-class RegisterUsers_GET_RequestSchema(BaseRequestSchemaAPI):
-    pass  # no query string in this case (see Users_GET_RequestSchema)
+class RegisterNode_GET_OkResponseSchema(BaseResponseSchemaAPI):
+    description = "Node successfully registered"
+    body = BaseResponseBodySchema(code=HTTPOk.code, description=description)
+
+
+class RegisterNode_POST_OkResponseSchema(BaseResponseSchemaAPI):
+    description = "Node successfully registered"
+    body = BaseResponseBodySchema(code=HTTPOk.code, description=description)
+
+
+class RegisterNode_DELETE_ForbiddenResponseSchema(BaseResponseSchemaAPI):
+    description = "Node successfully registered"
+    body = BaseResponseBodySchema(code=HTTPOk.code, description=description)
+
+
+
+class RegisterNode_GET_RequestSchema(BaseResponseBodySchema):
+    node_name = colander.SchemaNode(
+        colander.String(),
+        description="Name of the node.",
+        example="node1 or {username}-weaver-node",
+    )
+    node_url = colander.SchemaNode(
+        colander.String(),
+        description="URL of where the node can be found.",
+        example="http://{IP Address}/username/weaver",
+    )
+
+class RegisterNode_POST_RequestSchema(BaseResponseBodySchema):
+    # path = Group_RequestPathSchema()
+    node_name = colander.SchemaNode(
+        colander.String(),
+        description="Name of the node.",
+        example="node1 or {username}-weaver-node",
+    )
+    node_url = colander.SchemaNode(
+        colander.String(),
+        description="URL of where the node can be found.",
+        example="http://{IP Address}/username/weaver",
+    )
+
+
 
 
 class RegisterUsers_GET_ResponseBodySchema(BaseResponseBodySchema):
     registrations = UserNamesListSchema()
+
+
+class RegisterUsers_GET_RequestSchema(BaseRequestSchemaAPI):
+    pass  # no query string in this case (see Users_GET_RequestSchema)
 
 
 class RegisterUsers_GET_OkResponseSchema(BaseResponseSchemaAPI):
@@ -4158,6 +4213,33 @@ RegisterGroup_DELETE_responses = {
     "404": RegisterGroup_DELETE_NotFoundResponseSchema(),
     "500": InternalServerErrorResponseSchema(),
 }
+
+
+
+
+RegisterNode_GET_responses = {
+    "200": RegisterNode_GET_OkResponseSchema(),
+    "401": UnauthorizedResponseSchema(),
+    "403": RegisterGroup_DELETE_ForbiddenResponseSchema(),
+    "404": RegisterGroup_DELETE_NotFoundResponseSchema(),
+    "500": InternalServerErrorResponseSchema(),
+}
+
+
+
+
+RegisterNode_POST_responses = {
+    "200": RegisterNode_POST_OkResponseSchema(),
+    "401": UnauthorizedResponseSchema(),
+    "403": RegisterGroup_DELETE_ForbiddenResponseSchema(),
+    "404": RegisterGroup_DELETE_NotFoundResponseSchema(),
+    "500": InternalServerErrorResponseSchema(),
+}
+
+
+
+
+
 RegisterUsers_GET_responses = {
     "200": RegisterUsers_GET_OkResponseSchema(),
     "401": UnauthorizedResponseSchema(),
